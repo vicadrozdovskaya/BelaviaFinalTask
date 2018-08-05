@@ -2,6 +2,7 @@ package by.htp.drozdovskaya.automation.belavia;
 
 import org.testng.annotations.Test;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.AfterMethod;
 
 import java.util.Calendar;
@@ -27,7 +28,7 @@ public class MainPageTest {
 		steps.initBrowser();
 	}
 
-	@Test(description = "availible tickets on one way", enabled = false)
+	@Test(description = "availible tickets on one way", groups = {"one way ticket"})
 	public void availibleTicketsOnOneWay() {		
 		Calendar endDate = new GregorianCalendar();
 		endDate.add(Calendar.MONTH, MONTH_RANGE);
@@ -41,11 +42,12 @@ public class MainPageTest {
 		System.out.println(tickets);
 	}
 	
-	@Test(description = "availible tickets on two ways")
-	public void availibleTicketsOnTwoWays() {
+	@Parameters({"CityFrom","CityTo","MonthRange"})
+	@Test(description = "availible tickets on two ways",groups = {"tickets to both sides"})
+	public void availibleTicketsOnTwoWays(String cityFrom, String cityTo, int monthRange) {
 		Calendar endDate = new GregorianCalendar();
-		endDate.add(Calendar.MONTH, MONTH_RANGE);
-		steps.initInformationToTwoWaysTrip(CITY_FROM, CITY_TO, endDate, MONTH_RANGE);		
+		endDate.add(Calendar.MONTH, monthRange);
+		steps.initInformationToTwoWaysTrip(cityFrom, cityTo, endDate, monthRange);		
 		List<Ticket> ticketsFrom = steps.getAvailibleTicketsInColumn(endDate);
 		List<Ticket> ticketsTo = steps.getAvailibleTicketsInRow(endDate);
 		Collections.sort(ticketsFrom, new TicketComporatorCost());

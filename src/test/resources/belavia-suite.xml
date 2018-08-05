@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="BelaviaSuite">
+
+	<test name="BelaviaTicketsTest">
+
+		<parameter name="CityFrom" value="МИНСК" />
+		<parameter name="CityTo" value="РИГА" />
+		<parameter name="MonthRange" value="3" />
+
+		<groups>
+
+			<run>
+				<include name="tickets to both sides" />
+				<exclude name="one way ticket" />
+			</run>
+
+		</groups>
+
+		<classes>
+			<class
+				name="by.htp.drozdovskaya.automation.belavia.MainPageTest" />
+		</classes>
+
+	</test>
+
+</suite>
