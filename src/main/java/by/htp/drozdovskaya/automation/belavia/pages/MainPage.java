@@ -72,7 +72,6 @@ public class MainPage extends AbstractPage {
 		SimpleDateFormat format = new SimpleDateFormat("dd");
 		String date = format.format(today.getTime());
 		String day = String.valueOf(Integer.parseInt(date));
-		System.out.println(day);
 		simpleWait.until(ExpectedConditions.attributeToBe(By.xpath(
 				"//div[@class='wrapper ui-trigger-input ui-date-input']/span[@data-valmsg-for='DepartureDate_Datepicker']"),
 				"class", "field-validation-valid"));
@@ -85,24 +84,20 @@ public class MainPage extends AbstractPage {
 
 	}
 
-	public void choiceArrivalDate() {
-
-		driver.findElement(By.xpath("//a/i[@class='icon-right-open']")).click();
-		driver.findElement(By.xpath("//a/i[@class='icon-right-open']")).click();
-
+	public void choiceArrivalDate(Calendar endDate, int monthRange) {
+		for (int i = 0; i < monthRange - 2; i++) {
+			driver.findElement(By.xpath("//a/i[@class='icon-right-open']")).click();
+		}
 		List<WebElement> calendar = driver.findElements(By.xpath(
 				"//div[@class='ui-datepicker-group ui-datepicker-group-last']/table[@class='ui-datepicker-calendar']/tbody/tr/td/a"));
 		simpleWait.until(ExpectedConditions.attributeToBe(By.xpath(
 				"//div[@class='wrapper ui-trigger-input ui-date-input']/span[@data-valmsg-for='ReturnDate_Datepicker']"),
 				"class", "field-validation-valid"));
-		Calendar today = new GregorianCalendar();
-
 		SimpleDateFormat format = new SimpleDateFormat("dd");
-		String date = format.format(today.getTime());
+		String date = format.format(endDate.getTime());
 		String day = String.valueOf(Integer.parseInt(date));
-		System.out.println(day);
 		for (WebElement we : calendar) {
-			if (we.getText().contains("4")) {
+			if (we.getText().contains(day)) {
 				we.click();
 				break;
 			}
